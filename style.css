@@ -1,0 +1,227 @@
+body {
+    font-family: 'Georgia', serif;
+    background-color: #0d1a26; /* Deep Navy/Charcoal background */
+    color: #f0f8ff; /* Off-white text */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Hide anything that floats off-screen */
+    position: relative; /* For positioning absolute elements like balloons/hats */
+    animation: fadeIn 3s ease-in-out forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.container {
+    background: rgba(43, 62, 80, 0.9);
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); 
+    max-width: 800px; /* Wider to accommodate gifts */
+    z-index: 10; /* Ensure container stays above floating elements */
+    position: relative; /* For z-index to work */
+}
+
+h1 {
+    color: #ffd700;
+    font-size: 3em;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ffd700;
+    padding-bottom: 10px;
+}
+
+.message {
+    font-size: 1.4em;
+    margin-bottom: 40px;
+    color: #e0e0e0;
+}
+
+/* --- Main Interactive Icon --- */
+.icon {
+    font-size: 6em;
+    cursor: pointer;
+    display: inline-block;
+    transition: transform 0.6s ease;
+    animation: rotateSlow 20s linear infinite; 
+    z-index: 10;
+    position: relative;
+}
+
+@keyframes rotateSlow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.wisdom-glow {
+    animation: glowPulse 1s 2 alternate; 
+}
+
+@keyframes glowPulse {
+    from {
+        text-shadow: 0 0 10px #ffd700;
+    }
+    to {
+        text-shadow: 0 0 30px #ffd700, 0 0 50px #ff6347; 
+    }
+}
+
+.click-prompt {
+    font-style: italic;
+    margin-top: 30px;
+    color: #aaaaaa;
+}
+
+.hidden {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+/* --- FLOATING BALLOONS --- */
+#balloon-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicks to pass through to elements beneath */
+    z-index: 1; /* Behind the main content */
+}
+
+.balloon {
+    position: absolute;
+    font-size: 3em; /* Size of the balloon emoji */
+    animation: floatUp 10s linear infinite; /* Animation duration and loop */
+    opacity: 0; /* Start invisible */
+    transform: translateY(100vh); /* Start off-screen at the bottom */
+}
+
+/* Defines the floating animation */
+@keyframes floatUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0.8);
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20vh) scale(1.2); /* Float well off-screen at top */
+    }
+}
+
+/* --- FLOATING HATS --- */
+#hat-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2; /* Slightly above balloons */
+}
+
+.hat {
+    position: absolute;
+    font-size: 2.5em; /* Size of the hat emoji */
+    animation: floatUp 12s linear infinite; /* Longer duration for variety */
+    opacity: 0;
+    transform: translateY(100vh);
+}
+
+
+/* --- GIFTS SECTION --- */
+.gifts-section {
+    margin-top: 50px;
+    border-top: 1px dashed #ffd700;
+    padding-top: 30px;
+}
+
+.gifts-section h2 {
+    color: #ffd700;
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.gift-box-wrapper {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.gift-box {
+    width: 150px;
+    height: 150px;
+    background-color: #8b0000; /* Dark red gift box */
+    border: 5px solid #ffd700; /* Gold ribbon/border */
+    position: relative;
+    cursor: pointer;
+    perspective: 1000px; /* For 3D lid rotation */
+    margin-bottom: 20px;
+}
+
+.gift-box .lid {
+    position: absolute;
+    top: -10px; /* Lid slightly overlaps */
+    left: -5px;
+    width: calc(100% + 10px);
+    height: 40px;
+    background-color: #b22222; /* Slightly lighter red lid */
+    border: 5px solid #ffd700;
+    border-bottom: none;
+    transform-origin: bottom center;
+    transition: transform 0.5s ease-out;
+    z-index: 20; /* Lid on top */
+}
+
+.gift-box.opened .lid {
+    transform: rotateX(-90deg) translateY(-20px); /* Open effect */
+}
+
+.gift-box .present-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0); /* Start hidden */
+    font-size: 4em;
+    opacity: 0;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    z-index: 15;
+}
+
+.gift-box.opened .present-content {
+    transform: translate(-50%, -50%) scale(1); /* Reveal content */
+    opacity: 1;
+    transition-delay: 0.3s; /* Delay reveal slightly after lid opens */
+}
+
+.gift-box .gift-label {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    font-size: 0.9em;
+    color: #ccc;
+    transition: opacity 0.3s;
+    z-index: 15;
+}
+
+.gift-box.opened .gift-label {
+    opacity: 0;
+}
